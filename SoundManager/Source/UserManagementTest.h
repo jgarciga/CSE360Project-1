@@ -10,28 +10,36 @@ class UserManagementTest : public CppUnit::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
 private:
-    MainComponentLogin mainComp;
+    MainComponentLogin* mainComp = new MainComponentLogin();
 
 public:
+
+    void setUp() override
+    {
+        mainComp->saveUserInfo("Johnny", "jgarciga", "IDK");
+    }
+
+    void tearDown() override
+    {
+        // Cleanup can be used to reset any state after each test
+    }
+
     void testUserLogin()
     {
-        mainComp.saveUserInfo("Johnny", "jgarciga", "IDK");
-
+       
         // Correct login
-        CPPUNIT_ASSERT(mainComp.checkLogin("Johnny", "jgarciga"));
-
+        CPPUNIT_ASSERT(mainComp->checkLogin("Johnny", "jgarciga"));
         // Incorrect login
-        CPPUNIT_ASSERT(!mainComp.checkLogin("johnny", "wrongpass"));
+        CPPUNIT_ASSERT(!mainComp->checkLogin("johnny", "wrongpass"));
     }
 
     void testAccountInfo()
-    {
-        mainComp.saveUserInfo("Gina", "Ginapass", "IDK");
-
+    {   
+       
         // Account info retrieval
-        CPPUNIT_ASSERT(mainComp.getAccountInfo("Gina") == "IDK");
+        CPPUNIT_ASSERT(mainComp->getAccountInfo("Johnny") == "IDK");
 
         // Wrong username returns empty
-        CPPUNIT_ASSERT(mainComp.getAccountInfo("Ezfan") == "");
+        CPPUNIT_ASSERT(mainComp->getAccountInfo("johnny") == "");
     }
 };
