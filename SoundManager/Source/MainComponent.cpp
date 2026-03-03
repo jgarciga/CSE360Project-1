@@ -563,7 +563,7 @@ bool MainComponent::userExists() const
 void MainComponent::saveUserInfo(const juce::String& username, const juce::String& password, const juce::String& accountInfo, const juce::String& role)
 {
     userStorage->setValue("username", username);
-    userStorage->setValue("password", password);
+    userStorage->setValue("password", password); 
     userStorage->setValue("accountInfo", accountInfo);
     userStorage->setValue("role", role);
     userStorage->saveIfNeeded();

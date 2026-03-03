@@ -1,21 +1,24 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -I/usr/include/cppunit
-CXXFlags = -std=c++17 GenerateHTML.cpp -o GenerateHTML
 LDFLAGS = -lcppunit -pthread
 
 TARGET = UnitTests
-SRC = main.cpp
+SRC = main.cpp UserManagementTest.h
 
-all: $(TARGET)
+# Target for the test runner
+all: $(TARGET) GenerateHTML
 
 $(TARGET): $(SRC)
 	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
 
+# Target for HTML generator
+GenerateHTML: GenerateHTML.cpp
+	$(CXX) $(CXXFLAGS) GenerateHTML.cpp -o GenerateHTML
 
-report: $(TARGET)
+# Run tests and generate HTML
+report: all
 	./$(TARGET)
 	./GenerateHTML
 
 clean:
-	rm -f $(TARGET) *.o cppunit_results.xml TestReport.html
-	
+	rm -f $(TARGET) GenerateHTML *.o cppunit_results.xml TestReport.html
